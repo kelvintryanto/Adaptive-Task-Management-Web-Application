@@ -2,6 +2,9 @@
 
 Adaptive Task Management Web Application built for PT. Turboly Teknologi Indonesia Coding Challenge
 
+Live Preview:
+[https://adaptive-task-management-web-application.vercel.app/](https://adaptive-task-management-web-applic.vercel.app/)
+
 ## Stack
 
 - Next.js
