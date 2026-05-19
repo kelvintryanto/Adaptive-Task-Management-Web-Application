@@ -63,7 +63,7 @@ export function DesktopSidebar() {
             })
           }
           variant={"ghost"}
-          className="flex w-full justify-start gap-3 px-4 py-6 text-sm font-medium hover:bg-red-100 dark:hover:bg-red-950 text-red-500 transition"
+          className="flex w-full justify-start gap-3 px-4 py-6 text-sm font-medium hover:bg-red-100 dark:hover:bg-red-950 text-red-500 transition cursor-pointer"
         >
           <LogOut size={18} />
           Logout
