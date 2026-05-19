@@ -2,12 +2,14 @@
   "name": "adaptive-task-management-web-application",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "seed:init": "SEED_FILE=1_seed_init.mjs prisma db seed"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",
@@ -36,5 +38,8 @@
     "eslint-config-next": "16.2.6",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.mjs"
   }
 }
