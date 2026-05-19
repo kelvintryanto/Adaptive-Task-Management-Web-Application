@@ -13,10 +13,16 @@ export default withAuth(
                 new URL("/dashboard", req.url)
             );
         }
+
+        if (!token && !isLoginPage) {
+            return Response.redirect(
+                new URL("/", req.url)
+            );
+        }
     },
     {
-        pages: {
-            signIn: "/login",
+        callbacks: {
+            authorized: () => true,
         },
     }
 );
@@ -24,6 +30,8 @@ export default withAuth(
 export const config = {
     matcher: [
         "/dashboard/:path*",
-        "/",
+        "/:path*",
+        "/tasks/:path*",
+        "/completed/:path*",
     ],
 };

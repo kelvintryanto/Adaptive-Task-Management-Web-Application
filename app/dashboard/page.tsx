@@ -1,11 +1,15 @@
+import { AppShell } from "@/components/navigation/app-shell";
+
 export default function DashboardPage() {
   return (
-    <main className="min-h-screen bg-zinc-50 dark:bg-black p-6">
-      <div className="space-y-2">
+    <AppShell>
+      <div className="p-6">
         <h1 className="text-3xl font-bold">Dashboard</h1>
 
-        <p className="text-zinc-500">Welcome to Adaptive Task Management</p>
+        <p className="text-zinc-500 mt-2">
+          Welcome to Adaptive Task Management
+        </p>
       </div>
-    </main>
+    </AppShell>
   );
 }
