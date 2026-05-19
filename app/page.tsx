@@ -77,6 +77,7 @@ export default function LoginPage() {
                 width={400}
                 height={400}
                 className="mb-6"
+                loading="eager"
               />
 
               <h1 className="text-4xl font-bold leading-tight">
@@ -119,6 +120,7 @@ export default function LoginPage() {
                     width={100}
                     height={100}
                     className="mb-2"
+                    loading="eager"
                   />
                 </div>
 
