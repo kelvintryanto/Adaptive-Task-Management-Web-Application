@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "eslint",
     "postinstall": "prisma generate",
-    "seed:init": "SEED_FILE=1_seed_init.mjs prisma db seed"
+    "seed:init": "SEED_FILE=1_seed_init.mjs prisma db seed",
+    "seed:tasks": "SEED_FILE=2_seed_tasks.mjs prisma db seed"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",
