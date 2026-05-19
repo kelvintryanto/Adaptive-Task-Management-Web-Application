@@ -6,6 +6,7 @@ import { LayoutDashboard, CheckSquare, BadgeCheck, LogOut } from "lucide-react";
 
 import { signOut } from "next-auth/react";
 import { Button } from "../ui/button";
+import { ThemeToggle } from "../ToggleTheme";
 
 const menus = [
   {
@@ -56,6 +57,10 @@ export function DesktopSidebar() {
 
       {/* FOOTER */}
       <div className="p-4 border-t dark:border-zinc-800">
+        <div className="flex w-full justify-start rounded-xl gap-3 px-4 py-3 text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-900 text-zinc-500 transition">
+          <ThemeToggle withText />
+        </div>
+
         <Button
           onClick={() =>
             signOut({

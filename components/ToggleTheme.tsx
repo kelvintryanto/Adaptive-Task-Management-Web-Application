@@ -28,7 +28,7 @@ export function ThemeToggle({ withText = false }: ThemeToggleProps) {
   return (
     <button
       onClick={() => setTheme(currentTheme === "dark" ? "light" : "dark")}
-      className="cursor-pointer py-2 rounded-full"
+      className="cursor-pointer py-2 rounded-full w-full"
       tabIndex={-1}
     >
       {currentTheme === "dark" ? (
