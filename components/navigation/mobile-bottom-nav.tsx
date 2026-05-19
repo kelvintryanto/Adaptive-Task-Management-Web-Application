@@ -50,7 +50,7 @@ export function MobileBottomNav() {
         </div>
       </nav>
 
-      <div className="fixed top-2 right-4 z-50">
+      <div className="fixed top-2 right-4 z-50 md:hidden">
         <ThemeToggle withText />
       </div>
     </div>
