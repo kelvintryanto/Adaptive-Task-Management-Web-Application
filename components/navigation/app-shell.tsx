@@ -17,7 +17,7 @@ export function AppShell({ children }: Props) {
       <TabletSidebar />
 
       {/* CONTENT */}
-      <main className="flex-1 pb-20 md:pb-0">{children}</main>
+      <main className="flex flex-col flex-1 md:pb-0">{children}</main>
 
       {/* MOBILE */}
       <MobileBottomNav />
