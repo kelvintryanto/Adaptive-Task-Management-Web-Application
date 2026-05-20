@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { TaskList } from "@/components/task/task-list";
 
 import { TaskModal } from "@/components/task/task-modal";
+import LoadingComponent from "@/components/LoadingComponent";
 
 type Task = {
   id: string;
@@ -58,7 +59,7 @@ export default function TasksPage() {
       </div>
 
       {/* CONTENT */}
-      {loading ? <p>Loading tasks...</p> : <TaskList tasks={tasks} />}
+      {loading ? <LoadingComponent /> : <TaskList tasks={tasks} />}
     </div>
   );
 }

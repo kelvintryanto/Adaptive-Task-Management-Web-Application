@@ -35,7 +35,7 @@ export function TaskForm({ onSuccess }: Props) {
     try {
       setLoading(true);
 
-      const res = await fetch("/api/tasks", {
+      const res = await fetch("/api/task", {
         method: "POST",
 
         headers: {
