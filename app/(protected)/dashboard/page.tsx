@@ -8,6 +8,10 @@ export default function DashboardPage() {
     <div className="flex flex-1 flex-col">
       <div className="p-6 flex flex-col flex-1 justify-center">
         <h1 className="text-3xl font-bold">Dashboard</h1>
+        <p className="mt-2 text-zinc-500">
+          Welcome to your task management dashboard. Get an overview of your
+          tasks and stay organized.
+        </p>
         <div className="flex flex-col flex-1 items-center justify-center">
           <Image
             src="/logo.png"
