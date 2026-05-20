@@ -18,7 +18,6 @@ type Task = {
 
 export default function TasksPage() {
   const [tasks, setTasks] = useState<Task[]>([]);
-
   const [loading, setLoading] = useState(true);
 
   async function fetchTasks() {
@@ -33,6 +32,11 @@ export default function TasksPage() {
     } finally {
       setLoading(false);
     }
+  }
+
+  // delete task
+  async function handleDeleteTask(id: string) {
+    setTasks((prev) => prev.filter((task) => task.id !== id));
   }
 
   useEffect(() => {
@@ -59,7 +63,11 @@ export default function TasksPage() {
       </div>
 
       {/* CONTENT */}
-      {loading ? <LoadingComponent /> : <TaskList tasks={tasks} />}
+      {loading ? (
+        <LoadingComponent />
+      ) : (
+        <TaskList tasks={tasks} onDelete={handleDeleteTask} />
+      )}
     </div>
   );
 }

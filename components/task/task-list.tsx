@@ -12,17 +12,18 @@ type Task = {
 
 type Props = {
   tasks: Task[];
+  onDelete?: (id: string) => void;
 };
 
-export function TaskList({ tasks }: Props) {
+export function TaskList({ tasks, onDelete }: Props) {
   if (tasks.length === 0) {
     return <TaskEmpty />;
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 pb-14">
       {tasks.map((task) => (
-        <TaskCard key={task.id} task={task} />
+        <TaskCard key={task.id} task={task} onDelete={onDelete} />
       ))}
     </div>
   );
