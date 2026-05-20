@@ -6,6 +6,7 @@ import { TaskList } from "@/components/task/task-list";
 
 import { TaskModal } from "@/components/task/task-modal";
 import LoadingComponent from "@/components/LoadingComponent";
+import { Plus } from "lucide-react";
 
 type Task = {
   id: string;
@@ -59,7 +60,7 @@ export default function TasksPage() {
           </p>
         </div>
 
-        <TaskModal onCreated={fetchTasks} />
+        <TaskModal text="Create Task" onCreated={fetchTasks} icon={Plus} />
       </div>
 
       {/* CONTENT */}

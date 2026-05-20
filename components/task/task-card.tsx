@@ -1,7 +1,8 @@
 import { CalendarDays, Check, Pencil, Trash2 } from "lucide-react";
 import { Button } from "../ui/button";
+import { TaskModal } from "./task-modal";
 
-type Task = {
+export type Task = {
   id: string;
   title: string;
   description?: string | null;
@@ -92,9 +93,7 @@ export function TaskCard({ task, onDelete }: Props) {
         </Button>
 
         {/* EDIT */}
-        <Button className="p-2 rounded-md transition" variant={"secondary"}>
-          <Pencil className="w-4 h-4" /> Edit
-        </Button>
+        <TaskModal text="Edit" icon={Pencil} variant="secondary" task={task} />
 
         {/* DELETE */}
         <Button

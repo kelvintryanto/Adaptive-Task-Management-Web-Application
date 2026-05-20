@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Plus } from "lucide-react";
+import { LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -13,28 +14,66 @@ import {
 import { TaskForm } from "./task-form";
 
 type Props = {
+  task?: Task;
+  icon: LucideIcon;
+  text: string;
+  variant?:
+    | "default"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | "destructive"
+    | "link";
   onCreated?: () => void;
 };
 
-export function TaskModal({ onCreated }: Props) {
+type Task = {
+  id: string;
+  title: string;
+  description?: string | null;
+  dueDate: string;
+  priority: "LOW" | "MEDIUM" | "HIGH";
+  completed: boolean;
+};
+
+export function TaskModal({
+  task,
+  icon: Icon,
+  text,
+  variant = "default",
+  onCreated,
+}: Props) {
   const [open, setOpen] = useState(false);
+
+  function handleClick() {
+    console.log("TaskModal clicked with task:", task); // Debug log
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>
-          <Plus size={16} />
+        <Button variant={variant} onClick={handleClick}>
+          <Icon size={16} />
 
-          <span>Create Task</span>
+          <span>{text}</span>
         </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>Create New Task</DialogTitle>
+          <DialogTitle>
+            {text === "Create Task" ? "Create New Task" : "Edit Task"}
+          </DialogTitle>
+
+          <DialogDescription>
+            {text === "Create Task"
+              ? "Fill in the task details below."
+              : "Update your task information."}
+          </DialogDescription>
         </DialogHeader>
 
         <TaskForm
+          task={task}
           onSuccess={() => {
             setOpen(false);
 

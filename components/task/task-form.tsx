@@ -14,17 +14,26 @@ import {
 } from "@/components/ui/select";
 
 import { Textarea } from "@/components/ui/textarea";
+import { Task } from "./task-card";
 
 type Props = {
+  task?: Task;
   onSuccess?: () => void;
 };
 
-export function TaskForm({ onSuccess }: Props) {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [dueDate, setDueDate] = useState("");
-  const [priority, setPriority] = useState<"LOW" | "MEDIUM" | "HIGH">("MEDIUM");
+export function TaskForm({ task, onSuccess }: Props) {
+  const [title, setTitle] = useState(task?.title || "");
+  const [description, setDescription] = useState(task?.description || "");
+  const [dueDate, setDueDate] = useState(
+    task?.dueDate ? task.dueDate.split("T")[0] : "",
+  );
+  const [priority, setPriority] = useState<Task["priority"]>(
+    task?.priority || "MEDIUM",
+  );
   const [loading, setLoading] = useState(false);
+
+  const isEdit = !!task;
+  const endpoint = isEdit ? `/api/task/${task.id}` : "/api/task";
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -32,8 +41,8 @@ export function TaskForm({ onSuccess }: Props) {
     try {
       setLoading(true);
 
-      const res = await fetch("/api/task", {
-        method: "POST",
+      const res = await fetch(endpoint, {
+        method: isEdit ? "PUT" : "POST",
 
         headers: {
           "Content-Type": "application/json",
@@ -127,8 +136,14 @@ export function TaskForm({ onSuccess }: Props) {
       </div>
 
       {/* SUBMIT */}
-      <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? "Creating..." : "Create Task"}
+      <Button type="submit" className="w-full">
+        {loading
+          ? isEdit
+            ? "Updating..."
+            : "Creating..."
+          : isEdit
+            ? "Update Task"
+            : "Create Task"}
       </Button>
     </form>
   );
