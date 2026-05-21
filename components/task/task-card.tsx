@@ -1,6 +1,7 @@
 import { CalendarDays, Check, Pencil, Trash2, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { TaskModal } from "./task-modal";
+import clsx from "clsx";
 
 export type Task = {
   id: string;
@@ -15,9 +16,18 @@ type Props = {
   task: Task;
   onDelete?: (id: string) => void;
   onUpdate?: () => void;
+
+  hideLineThrough?: boolean;
+  showPriority?: boolean;
 };
 
-export function TaskCard({ task, onDelete, onUpdate }: Props) {
+export function TaskCard({
+  task,
+  onDelete,
+  onUpdate,
+  hideLineThrough,
+  showPriority = true,
+}: Props) {
   async function handleDelete() {
     try {
       const res = await fetch(`/api/task/${task.id}`, {
@@ -56,7 +66,7 @@ export function TaskCard({ task, onDelete, onUpdate }: Props) {
       <div className="flex items-start justify-between gap-3">
         <div>
           <h2
-            className={`text-lg font-semibold ${task.completed ? "line-through" : ""}`}
+            className={`text-lg font-semibold ${task.completed && hideLineThrough ? "line-through" : ""}`}
           >
             {task.title}
           </h2>
@@ -71,23 +81,21 @@ export function TaskCard({ task, onDelete, onUpdate }: Props) {
         </div>
 
         <div className="flex items-center gap-2">
-          <div
-            className={`
-            rounded-full px-2 py-1 text-xs font-medium
-            ${
-              task.priority === "HIGH"
-                ? "bg-red-100 text-red-600"
-                : task.priority === "MEDIUM"
-                  ? "bg-yellow-100 text-yellow-700"
-                  : "bg-green-100 text-green-700"
-            }
-            ${task.completed ? "hidden" : ""}
-          `}
-          >
-            {task.priority}
-          </div>
-
-          <div className="flex items-center gap-2"></div>
+          {showPriority && (
+            <div
+              className={clsx(
+                "text-xs font-medium px-2 py-1 rounded-full w-fit",
+                task.priority === "HIGH" &&
+                  "bg-red-100 text-red-600 dark:bg-red-950 dark:text-red-400",
+                task.priority === "MEDIUM" &&
+                  "bg-yellow-100 text-yellow-700 dark:bg-yellow-950 dark:text-yellow-400",
+                task.priority === "LOW" &&
+                  "bg-green-100 text-green-700 dark:bg-green-950 dark:text-green-400",
+              )}
+            >
+              {task.priority}
+            </div>
+          )}
         </div>
       </div>
 

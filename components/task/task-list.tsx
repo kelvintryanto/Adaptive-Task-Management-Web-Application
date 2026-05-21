@@ -22,11 +22,6 @@ export function TaskList({ tasks, onDelete, onUpdate }: Props) {
   }
 
   const today = new Date().toLocaleDateString("en-CA"); // format: YYYY-MM-DD
-  console.log("today", today);
-  console.log(
-    "tasks due date",
-    tasks.map((task) => task.dueDate),
-  );
   const todayTodoTasks = tasks.filter(
     (task) =>
       !task.completed &&
@@ -95,6 +90,8 @@ export function TaskList({ tasks, onDelete, onUpdate }: Props) {
                   task={task}
                   onDelete={onDelete}
                   onUpdate={onUpdate}
+                  hideLineThrough
+                  showPriority={false}
                 />
               ))
             ) : (
