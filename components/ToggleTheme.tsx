@@ -44,8 +44,7 @@ export function ThemeToggle({
       tabIndex={-1}
       className={clsx(
         "cursor-pointer transition",
-        variant === "default" &&
-          "flex items-center gap-2 py-2 rounded-full w-full",
+        variant === "default" && "flex items-center gap-2 rounded-full w-full",
         variant === "bottom-nav" &&
           "flex flex-col items-center justify-center text-center text-xs",
       )}
