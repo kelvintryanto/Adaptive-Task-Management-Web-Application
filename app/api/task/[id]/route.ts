@@ -96,3 +96,119 @@ export async function DELETE(
         );
     }
 }
+
+export async function PUT(
+    req: Request,
+    { params }: { params: Params }
+) {
+    try {
+        // session
+        const session = await getServerSession(authOptions);
+
+        if (!session?.user?.email) {
+            return NextResponse.json(
+                {
+                    message: "Unauthorized",
+                },
+                {
+                    status: 401,
+                }
+            );
+        }
+
+        // user
+        const user = await prisma.user.findUnique({
+            where: {
+                email: session.user.email,
+            },
+            select: {
+                id: true,
+            },
+        });
+
+        if (!user) {
+            return NextResponse.json(
+                {
+                    message: "User not found",
+                },
+                {
+                    status: 404,
+                }
+            );
+        }
+
+        // task id
+        const { id } = await params;
+
+        // body
+        const body = await req.json();
+
+        const {
+            title,
+            description,
+            dueDate,
+            priority,
+        } = body;
+
+        // validation
+        if (!title || !dueDate || !priority) {
+            return NextResponse.json(
+                {
+                    message: "Missing required fields",
+                },
+                {
+                    status: 400,
+                }
+            );
+        }
+
+        // check ownership
+        const existingTask = await prisma.task.findFirst({
+            where: {
+                id,
+                userId: user.id,
+            },
+        });
+
+        if (!existingTask) {
+            return NextResponse.json(
+                {
+                    message: "Task not found",
+                },
+                {
+                    status: 404,
+                }
+            );
+        }
+
+        // update task
+        const updatedTask = await prisma.task.update({
+            where: {
+                id,
+            },
+
+            data: {
+                title,
+                description,
+                dueDate: new Date(dueDate),
+                priority,
+            },
+        });
+
+        return NextResponse.json({
+            message: "Task updated successfully",
+            data: updatedTask,
+        });
+    } catch (error) {
+        console.error("UPDATE TASK ERROR:", error);
+
+        return NextResponse.json(
+            {
+                message: "Internal server error",
+            },
+            {
+                status: 500,
+            }
+        );
+    }
+}

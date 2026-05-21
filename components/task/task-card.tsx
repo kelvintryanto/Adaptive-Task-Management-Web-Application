@@ -14,9 +14,10 @@ export type Task = {
 type Props = {
   task: Task;
   onDelete?: (id: string) => void;
+  onUpdate?: () => void;
 };
 
-export function TaskCard({ task, onDelete }: Props) {
+export function TaskCard({ task, onDelete, onUpdate }: Props) {
   async function handleDelete() {
     try {
       const res = await fetch(`/api/task/${task.id}`, {
@@ -93,7 +94,13 @@ export function TaskCard({ task, onDelete }: Props) {
         </Button>
 
         {/* EDIT */}
-        <TaskModal text="Edit" icon={Pencil} variant="secondary" task={task} />
+        <TaskModal
+          text="Edit"
+          icon={Pencil}
+          variant="secondary"
+          task={task}
+          onCreated={onUpdate}
+        />
 
         {/* DELETE */}
         <Button

@@ -67,7 +67,11 @@ export default function TasksPage() {
       {loading ? (
         <LoadingComponent />
       ) : (
-        <TaskList tasks={tasks} onDelete={handleDeleteTask} />
+        <TaskList
+          tasks={tasks}
+          onDelete={handleDeleteTask}
+          onUpdate={fetchTasks}
+        />
       )}
     </div>
   );

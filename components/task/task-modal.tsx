@@ -45,14 +45,10 @@ export function TaskModal({
 }: Props) {
   const [open, setOpen] = useState(false);
 
-  function handleClick() {
-    console.log("TaskModal clicked with task:", task); // Debug log
-  }
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant={variant} onClick={handleClick}>
+        <Button variant={variant}>
           <Icon size={16} />
 
           <span>{text}</span>
