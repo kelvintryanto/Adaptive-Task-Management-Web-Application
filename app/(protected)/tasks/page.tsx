@@ -88,9 +88,9 @@ export default function TasksPage() {
         <TaskModal text="Create Task" onCreated={fetchTasks} icon={Plus} />
       </div>
 
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-3">
         {/* SEARCH FIELD */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 w-full sm:min-w-md md:w-sm">
           <p className="text-sm text-zinc-500">Search</p>
           <Input
             type="text"
@@ -101,7 +101,7 @@ export default function TasksPage() {
         </div>
 
         {/* SORT FIELD */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 w-full sm:min-w-md md:w-sm justify-end">
           <p className="text-sm text-zinc-500">Sort by</p>
           <Select value={sortBy} onValueChange={(value) => setSortBy(value)}>
             <SelectTrigger className="w-45">

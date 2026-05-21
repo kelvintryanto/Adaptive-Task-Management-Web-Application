@@ -11,7 +11,7 @@ export function MobileBottomNav() {
   return (
     <div>
       <nav className="fixed bottom-0 left-0 right-0 z-50 border-t bg-white dark:bg-zinc-950 dark:border-zinc-800 md:hidden">
-        <div className="grid grid-cols-4">
+        <div className="grid grid-cols-5">
           <Link
             href="/dashboard"
             className="flex flex-col items-center justify-center py-3 text-xs"
@@ -36,6 +36,8 @@ export function MobileBottomNav() {
             Completed
           </Link>
 
+          <ThemeToggle withText variant="bottom-nav" />
+
           <button
             onClick={() =>
               signOut({
@@ -49,10 +51,6 @@ export function MobileBottomNav() {
           </button>
         </div>
       </nav>
-
-      <div className="fixed top-2 right-4 z-50 md:hidden">
-        <ThemeToggle withText />
-      </div>
     </div>
   );
 }

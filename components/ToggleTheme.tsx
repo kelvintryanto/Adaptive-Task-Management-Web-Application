@@ -3,6 +3,7 @@
 import { useTheme } from "next-themes";
 import { Sun, Moon } from "lucide-react";
 import { useSyncExternalStore } from "react";
+import clsx from "clsx";
 
 function useIsClient() {
   return useSyncExternalStore(
@@ -14,40 +15,44 @@ function useIsClient() {
 
 export interface ThemeToggleProps {
   withText?: boolean;
+  variant?: "default" | "bottom-nav";
 }
 
-export function ThemeToggle({ withText = false }: ThemeToggleProps) {
+export function ThemeToggle({
+  withText = false,
+  variant = "default",
+}: ThemeToggleProps) {
   const isClient = useIsClient();
+
   const { theme, setTheme, systemTheme } = useTheme();
 
   if (!isClient) return null;
 
   const currentTheme = theme === "system" ? systemTheme : theme;
+
   if (!currentTheme) return null;
+
+  const isDark = currentTheme === "dark";
+
+  const Icon = isDark ? Moon : Sun;
+
+  const label = isDark ? "Dark" : "Light";
 
   return (
     <button
-      onClick={() => setTheme(currentTheme === "dark" ? "light" : "dark")}
-      className="cursor-pointer py-2 rounded-full w-full"
+      onClick={() => setTheme(isDark ? "light" : "dark")}
       tabIndex={-1}
-    >
-      {currentTheme === "dark" ? (
-        withText ? (
-          <div className="flex gap-2 items-center">
-            <Moon size={18} />
-            <span>Dark</span>
-          </div>
-        ) : (
-          <Moon size={18} />
-        )
-      ) : withText ? (
-        <div className="flex gap-2 items-center">
-          <Sun size={18} />
-          <span>Light</span>
-        </div>
-      ) : (
-        <Sun size={18} />
+      className={clsx(
+        "cursor-pointer transition",
+        variant === "default" &&
+          "flex items-center gap-2 py-2 rounded-full w-full",
+        variant === "bottom-nav" &&
+          "flex flex-col items-center justify-center text-center text-xs",
       )}
+    >
+      <Icon size={20} />
+
+      {withText && <span>{label}</span>}
     </button>
   );
 }
