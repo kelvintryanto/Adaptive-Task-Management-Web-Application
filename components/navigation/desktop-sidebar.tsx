@@ -28,7 +28,7 @@ const menus = [
 
 export function DesktopSidebar() {
   return (
-    <aside className="hidden lg:flex w-72 border-r bg-white dark:bg-zinc-950 dark:border-zinc-800 flex-col">
+    <aside className="hidden lg:flex fixed left-0 top-0 h-screen w-72 border-r bg-white dark:bg-zinc-950 dark:border-zinc-800 flex-col">
       {/* LOGO */}
       <div className="p-6 border-b dark:border-zinc-800">
         <h1 className="text-2xl font-bold">Turboly Tasks</h1>

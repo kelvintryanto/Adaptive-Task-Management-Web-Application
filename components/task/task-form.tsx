@@ -136,7 +136,7 @@ export function TaskForm({ task, onSuccess }: Props) {
       </div>
 
       {/* SUBMIT */}
-      <Button type="submit" className="w-full">
+      <Button type="submit" className="w-full" disabled={loading}>
         {loading
           ? isEdit
             ? "Updating..."

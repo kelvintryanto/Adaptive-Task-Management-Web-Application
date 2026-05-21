@@ -1,16 +1,13 @@
-import { NextResponse } from "next/server";
-
+import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
     try {
-        // Ambil session login
+        // session
         const session = await getServerSession(authOptions);
 
-        // Jika belum login
         if (!session?.user?.email) {
             return NextResponse.json(
                 {
@@ -22,7 +19,7 @@ export async function GET() {
             );
         }
 
-        // Cari user berdasarkan email session
+        // user
         const user = await prisma.user.findUnique({
             where: {
                 email: session.user.email,
@@ -40,14 +37,92 @@ export async function GET() {
             );
         }
 
-        // Ambil semua task berdasarkan user
+        // query params
+        const { searchParams } = new URL(request.url);
+
+        const search =
+            searchParams.get("search") || "";
+
+        const sortBy =
+            searchParams.get("sortBy");
+
+        const order =
+            searchParams.get("order");
+
+        // tasks
         const tasks = await prisma.task.findMany({
             where: {
                 userId: user.id,
+
+                OR: [
+                    {
+                        title: {
+                            contains: search,
+                            mode: "insensitive",
+                        },
+                    },
+
+                    {
+                        description: {
+                            contains: search,
+                            mode: "insensitive",
+                        },
+                    },
+                ],
             },
-            orderBy: {
-                dueDate: "asc"
-            },
+        });
+
+        // priority ranking
+        const priorityOrder = {
+            HIGH: 0,
+            MEDIUM: 1,
+            LOW: 2,
+        };
+
+        // sorting
+        tasks.sort((a, b) => {
+            // completed paling belakang
+            if (a.completed !== b.completed) {
+                return (
+                    Number(a.completed) -
+                    Number(b.completed)
+                );
+            }
+
+            let compare = 0;
+
+            switch (sortBy) {
+                case "priority":
+                    compare =
+                        priorityOrder[a.priority] -
+                        priorityOrder[b.priority];
+                    break;
+
+                case "dueDate":
+                    compare =
+                        new Date(a.dueDate).getTime() -
+                        new Date(b.dueDate).getTime();
+                    break;
+
+                default:
+                    // default sorting
+                    compare =
+                        priorityOrder[a.priority] -
+                        priorityOrder[b.priority];
+
+                    if (compare === 0) {
+                        compare =
+                            new Date(a.dueDate).getTime() -
+                            new Date(b.dueDate).getTime();
+                    }
+            }
+
+            // order
+            if (order === "desc") {
+                return -compare;
+            }
+
+            return compare;
         });
 
         return NextResponse.json(tasks);
@@ -65,7 +140,7 @@ export async function GET() {
     }
 }
 
-export async function POST(req: Request) {
+export async function POST(request: NextRequest) {
     try {
         // Ambil session login
         const session = await getServerSession(authOptions);
@@ -83,7 +158,7 @@ export async function POST(req: Request) {
         }
 
         // Ambil body request
-        const body = await req.json();
+        const body = await request.json();
 
         const {
             title,

@@ -81,6 +81,7 @@ export function TaskCard({ task, onDelete, onUpdate }: Props) {
                   ? "bg-yellow-100 text-yellow-700"
                   : "bg-green-100 text-green-700"
             }
+            ${task.completed ? "hidden" : ""}
           `}
           >
             {task.priority}
@@ -120,11 +121,11 @@ export function TaskCard({ task, onDelete, onUpdate }: Props) {
         >
           {task.completed ? (
             <span className="flex items-center gap-1">
-              <X className="w-4 h-4" /> Uncomplete
+              <X className="w-4 h-4" /> Undone
             </span>
           ) : (
             <span className="flex items-center gap-1">
-              <Check className="w-4 h-4" /> Complete
+              <Check className="w-4 h-4" /> Done
             </span>
           )}
         </Button>

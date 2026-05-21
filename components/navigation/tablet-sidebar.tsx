@@ -25,7 +25,7 @@ const menus = [
 
 export function TabletSidebar() {
   return (
-    <aside className="hidden md:flex lg:hidden w-20 border-r bg-white dark:bg-zinc-950 dark:border-zinc-800 flex-col items-center py-4">
+    <aside className="hidden md:flex lg:hidden h-screen w-20 fixed left-0 top-0 border-r bg-white dark:bg-zinc-950 dark:border-zinc-800 flex-col items-center py-4">
       <div className="flex-1 space-y-4">
         {menus.map((menu) => {
           const Icon = menu.icon;
