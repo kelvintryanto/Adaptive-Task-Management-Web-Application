@@ -1,4 +1,4 @@
-import { CalendarDays, Check, Pencil, Trash2 } from "lucide-react";
+import { CalendarDays, Check, Pencil, Trash2, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { TaskModal } from "./task-modal";
 
@@ -35,14 +35,38 @@ export function TaskCard({ task, onDelete, onUpdate }: Props) {
     }
   }
 
+  async function handleCompleteUncomplete() {
+    try {
+      const res = await fetch(`/api/task/${task.id}/toggle-complete`, {
+        method: "PATCH",
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to toggle complete");
+      }
+
+      onUpdate?.();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <div className="rounded-2xl border bg-white dark:bg-zinc-900 p-5 shadow-sm transition hover:shadow-md">
       <div className="flex items-start justify-between gap-3">
-        <div className="">
-          <h2 className="text-lg font-semibold">{task.title}</h2>
+        <div>
+          <h2
+            className={`text-lg font-semibold ${task.completed ? "line-through" : ""}`}
+          >
+            {task.title}
+          </h2>
 
           {task.description && (
-            <p className="mt-2 text-sm text-zinc-500">{task.description}</p>
+            <p
+              className={`mt-2 text-sm text-zinc-500 ${task.completed ? "line-through" : ""}`}
+            >
+              {task.description}
+            </p>
           )}
         </div>
 
@@ -89,8 +113,20 @@ export function TaskCard({ task, onDelete, onUpdate }: Props) {
 
       <div className="grid grid-cols-3 items-center gap-2 mt-2">
         {/* COMPLETE */}
-        <Button className="p-2 rounded-md transition" variant={"outline"}>
-          <Check className="w-4 h-4" /> Done
+        <Button
+          className="p-2 rounded-md transition"
+          variant={"outline"}
+          onClick={handleCompleteUncomplete}
+        >
+          {task.completed ? (
+            <span className="flex items-center gap-1">
+              <X className="w-4 h-4" /> Uncomplete
+            </span>
+          ) : (
+            <span className="flex items-center gap-1">
+              <Check className="w-4 h-4" /> Complete
+            </span>
+          )}
         </Button>
 
         {/* EDIT */}
